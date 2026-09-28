@@ -41,7 +41,7 @@
 
 ## Section 4: Deployed and Presentation Information
 - **Deployment Platform:** Render
-- **Live Deployment URL:** (https://project01-ai-search-b4ck.onrender.com/)
+- **Live Deployment URL:** https://project01-ai-search-b4ck.onrender.com/
 - **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
 
 ---
