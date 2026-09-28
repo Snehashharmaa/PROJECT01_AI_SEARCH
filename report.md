@@ -40,8 +40,8 @@
 ---
 
 ## Section 4: Deployed and Presentation Information
-- **Deployment Platform:** [Write your deployment platform here, e.g., Render]
-- **Live Deployment URL:** (https://dashboard.render.com/web/srv-dates1psrm7s738eau00/deploys/dep-dates21srm7s738eavhg?r=2026-09-28%4022%3A44%3A28%7E2026-09-28%4022%3A47%3A16)
+- **Deployment Platform:** Render
+- **Live Deployment URL:** (https://project01-ai-search-b4ck.onrender.com/)
 - **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
 
 ---
