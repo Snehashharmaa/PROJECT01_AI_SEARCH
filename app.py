@@ -24,38 +24,47 @@ def load_map_data():
     }
 
 
-@app.route("/")
-def index():
-    """Renders the main deployment webpage."""
-    return render_template("index.html")
-
-
-@app.route("/api/map", methods=["GET"])
-def get_map():
-    """Returns map locations and graph connections."""
-    data = load_map_data()
-    return jsonify(data)
-
-
-@app.route("/api/search", methods=["POST"])
+@app.route("/search", methods=["POST"])
 def search():
-    """
-    Search endpoint placeholder for deployment testing.
-    """
-    payload = request.get_json() or {}
-    start = payload.get("start", "")
-    goal = payload.get("goal", "")
-    algorithm = payload.get("algorithm", "")
+    """Executes the selected search algorithm and returns the path, distance, and nodes expanded."""
+    data = request.get_json() or {}
+    start = data.get("start")
+    goal = data.get("goal")
+    algorithm = str(data.get("algorithm", "")).strip().lower()
+
+    map_data = load_map_data()
+    graph = map_data.get("graph", {})
+    nodes = map_data.get("nodes", {})
+
+    if not start or not goal or start not in graph or goal not in graph:
+        return jsonify({"error": "Invalid start or destination city"}), 400
+
+    result = None
+
+    # Flexible string matching (handles hyphens, case, and short names)
+    if "bfs" in algorithm or "breadth" in algorithm:
+        result = bfs(graph, start, goal)
+    elif "dfs" in algorithm or "depth" in algorithm:
+        result = dfs(graph, start, goal)
+    elif "ucs" in algorithm or "uniform" in algorithm:
+        result = ucs(graph, start, goal)
+    elif "ids" in algorithm or "iterative" in algorithm:
+        result = ids(graph, start, goal)
+    elif "greedy" in algorithm:
+        result = greedy_best_first(graph, nodes, start, goal)
+    elif "a*" in algorithm or "a_star" in algorithm or "a star" in algorithm:
+        result = a_star(graph, nodes, start, goal)
+    else:
+        return jsonify({"error": f"Unknown algorithm selection: {algorithm}"}), 400
+
+    if not result:
+        return jsonify({"error": "No path found between cities"}), 404
+
+    total_cost = round(result.get("cost", 0), 2)
 
     return jsonify({
-        "status": "ready",
-        "message": f"Deployment server active. Request received for algorithm '{algorithm}' from '{start}' to '{goal}'.",
-        "path": [],
-        "cost": 0,
-        "nodes_expanded": 0
+        "path": result.get("path", []),
+        "distance": total_cost,
+        "cost": total_cost,
+        "nodes_expanded": result.get("nodes_expanded", 0)
     })
-
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
