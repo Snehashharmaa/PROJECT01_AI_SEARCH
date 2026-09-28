@@ -2,6 +2,10 @@ import os
 import json
 from flask import Flask, render_template, jsonify, request
 
+# 1. FIX: Import the algorithms from your other files
+from uninformed import bfs, dfs, ucs, ids
+from informed import greedy_best_first, a_star
+
 app = Flask(__name__)
 
 MAP_DATA_FILE = "map_data.json"
@@ -24,7 +28,20 @@ def load_map_data():
     }
 
 
-@app.route("/search", methods=["POST"])
+# 2. FIX: Add the root route to serve the frontend website
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+# 2. FIX: Add a route to provide the map data to the frontend UI
+@app.route("/api/map", methods=["GET"])
+def get_map():
+    return jsonify(load_map_data())
+
+
+# Note: Make sure your index.html fetch() calls match this route name (e.g., '/api/search' or '/search')
+@app.route("/api/search", methods=["POST"])
 def search():
     """Executes the selected search algorithm and returns the path, distance, and nodes expanded."""
     data = request.get_json() or {}
@@ -34,7 +51,9 @@ def search():
 
     map_data = load_map_data()
     graph = map_data.get("graph", {})
-    nodes = map_data.get("nodes", {})
+    
+    # 3. FIX: Change "nodes" to "locations" to match map_data.json
+    locations = map_data.get("locations", {})
 
     if not start or not goal or start not in graph or goal not in graph:
         return jsonify({"error": "Invalid start or destination city"}), 400
@@ -51,9 +70,9 @@ def search():
     elif "ids" in algorithm or "iterative" in algorithm:
         result = ids(graph, start, goal)
     elif "greedy" in algorithm:
-        result = greedy_best_first(graph, nodes, start, goal)
-    elif "a*" in algorithm or "a_star" in algorithm or "a star" in algorithm:
-        result = a_star(graph, nodes, start, goal)
+        result = greedy_best_first(graph, locations, start, goal)
+    elif "a*" in algorithm or "a_star" in algorithm or "a star" in algorithm or "astar" in algorithm:
+        result = a_star(graph, locations, start, goal)
     else:
         return jsonify({"error": f"Unknown algorithm selection: {algorithm}"}), 400
 
@@ -68,3 +87,6 @@ def search():
         "cost": total_cost,
         "nodes_expanded": result.get("nodes_expanded", 0)
     })
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
