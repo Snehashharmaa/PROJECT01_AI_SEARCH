@@ -10,46 +10,47 @@
 ---
 
 ## Student Information 
-- **Name:** [Write your Name here]
-- **UID (netID):** [Write your UID (netID) here]
-- **UIN:** [Write your UIN here]
+- **Name:** sneha sharma 
+- **UID (netID):** sshar68
+- **UIN:** 661090803
 
 ---
 
 ## Section 1: Selected City Region
-- **Selected Region:** [Write your selected region here (must be a USA-based region, e.g., a US state or city region)]
+- **Selected Region:** Illinois, USA
 
 ---
 
 ## Section 2: Map Graph Configuration
-- **Total Cities Configured:** [Write total number of cities here, must be 20 or more]
-- **Total Connection Edges:** [Write total number of highway connection edges here]
-- **Graph Fully Connected:** [Write Yes or No here]
+- **Total Cities Configured:** 22
+- **Total Connection Edges:** 35
+- **Graph Fully Connected:** Yes
 
 ---
 
 ## Section 3: Local Verification & Search Algorithms
 *Check the algorithms you successfully ran and verified on your local development server by placing an `x` in the brackets (e.g., `[x]`):*
-- [ ] Breadth-First Search (BFS)
-- [ ] Depth-First Search (DFS)
-- [ ] Uniform Cost Search (UCS)
-- [ ] Iterative Deepening Search (IDS)
-- [ ] Greedy Best-First Search (Greedy)
-- [ ] A* Search (A*)
+- [x] Breadth-First Search (BFS)
+- [x] Depth-First Search (DFS)
+- [x] Uniform Cost Search (UCS)
+- [x] Iterative Deepening Search (IDS)
+- [x] Greedy Best-First Search (Greedy)
+- [x] A* Search (A*)
 
 ---
 
 ## Section 4: Deployed and Presentation Information
 - **Deployment Platform:** [Write your deployment platform here, e.g., Render]
-- **Live Deployment URL:** [Provide your live deployment site URL here]
+- **Live Deployment URL:** (https://dashboard.render.com/web/srv-dates1psrm7s738eau00/deploys/dep-dates21srm7s738eavhg?r=2026-09-28%4022%3A44%3A28%7E2026-09-28%4022%3A47%3A16)
 - **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
 
 ---
 
 ## Section 5: Discussion
 - **Which search algorithm is best for this route finding problem?** 
-    [Write your answer here]
-- **Search Efficiency (Nodes expanded/time taken comparison):** [Write your answer here comparing search efficiency in terms of number of nodes visited and runtime across different algorithms]
+    Here are clear, detailed answers for Section 5: Discussion that you can paste directly into your report.md:Section 5: DiscussionWhich search algorithm is best for this route finding problem?A* Search is the best algorithm for this spatial route-finding problem. Because road connections represent real physical distances, the straight-line Haversine distance serves as an admissible heuristic ($h(n) \le h^*(n)$) that never overestimate actual travel distance. By combining cumulative edge costs with heuristic estimates ($f(n) = g(n) + h(n)$), A* guarantees finding the shortest path (optimality) while expanding significantly fewer nodes than uninformed methods like Uniform-Cost Search.
+- **Search Efficiency (Nodes expanded/time taken comparison):**
+    Uninformed algorithms like BFS, DFS, and IDS explore nodes blindly without direction, often expanding a large portion of the graph (e.g., expanding 15–20 nodes for distant routes) and suffering from higher runtimes or suboptimal paths (DFS). Uniform Cost Search (UCS) guarantees optimal path length but expands nodes uniformly in all directions. In contrast, informed algorithms like Greedy Best-First Search expand fewer nodes by strictly following the heuristic toward the goal, though it can yield suboptimal paths. A* achieves the best balance: it expands far fewer nodes than UCS while strictly guaranteeing the optimal shortest road distance.
 - **Link the idea of search algorithm to today Generative AI.** 
-    [Write your answer here]
+    Modern Generative AI models (such as LLMs using Beam Search or Monte Carlo Tree Search in reasoning models like OpenAI o1/o3) rely on search principles to decode and select optimal output sequences. During text generation, auto-regressive models do not evaluate all possible completions at once; instead, they navigate a high-dimensional state space where words/tokens represent states and token probabilities serve as path costs/heuristics. Search algorithms guide the model to expand and prune candidate responses, ensuring coherent, highly probable, and reasoning-sound outputs.
 
